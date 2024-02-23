@@ -103,9 +103,9 @@ namespace Lab5
             int number = 1;
             return number;
         }
-        public void IncreaceCourseNumber(this Student student1)
+        public void IncreaceCourseNumber(Student student)
         {
-            student1.Course += 1;
+            student.Course += 1;
         }
         public Student CreateStudent(DateTime year)
         {
