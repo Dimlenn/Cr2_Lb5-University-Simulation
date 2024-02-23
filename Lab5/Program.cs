@@ -4,16 +4,17 @@ using System.Diagnostics;
 
 int.TryParse(Console.ReadLine(),out int N);
 
-LinkedList<Student> university = new LinkedList<Student>();
+LinkedList<Student> students = new LinkedList<Student>();
 Student student = new Student();
+University university = new University();
 
 for  (int i = 0; i < 5; i++)
 {
-    student.GraduateStudents(university);
+    university.GraduateStudents(students);
 
-    foreach (Student stud in university)
+    foreach (Student stud in students)
     {
-        stud.ChangeCourseNumber();
+        stud.IncreaceCourseNumber(stud);
     }
 
     int year = 2020 + i;
@@ -21,23 +22,23 @@ for  (int i = 0; i < 5; i++)
 
     for (int j = 0; j < N; j++)
     {
-        university.AddLast(student.CreateStudent(dateTime));
+        students.AddLast(student.CreateStudent(dateTime));
     }
 }
 
 int count = 0;
-foreach (Student stud in university)
+foreach (Student stud in students)
 {
     count++;
     Console.WriteLine(stud.BirthDate);
 }
 Console.WriteLine(count);
 
-Console.WriteLine(student.FindOldestStudent(university));
+Console.WriteLine(student.FindOldestStudent(students));
 
 LinkedList<Student> gifteds = new LinkedList<Student>();
-DateOnly oldestDate = student.FindOldestStudent(university);
-foreach (Student stud in university)
+DateOnly oldestDate = student.FindOldestStudent(students);
+foreach (Student stud in students)
 {
     if (stud.Course == 2 && stud.BirthDate > oldestDate)
     {

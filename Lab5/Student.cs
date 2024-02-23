@@ -11,32 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Lab5
 {
-    struct GroupName
-    {
-        string[] allowableNames = { "БИСТ", "БИВТ", "БПИ" };
-        public string name = null;
-        string number;
-        public GroupName(string name, int number)
-        {
-            if (allowableNames.Contains(name))
-            {
-                this.name = name;
-            }
-            this.number = Convert.ToString(number);
-        }
-        public string GetName()
-        {
-            if (name == null || number == null)
-            {
-                string noGroup = "отсутствует";
-                return noGroup;
-            }
-            string groupName = $"{name}-{number}";
-            return groupName;
-        }
-
-    }
-    internal class Student
+    public class Student
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -102,19 +77,6 @@ namespace Lab5
             int index = random.Next(sex.Length);
             return sex[index];
         }
-        private DateTime RandomDateTime(DateTime dateNow)
-        {
-            int yearMin = dateNow.Year - 20;
-            var startDate = new DateTime(yearMin, 1, 1);
-            int buffer = 2 * 265;
-            var newDate = startDate.AddDays(random.Next(buffer));
-            return newDate;
-        }
-        private DateOnly CreateDateOnly(DateTime year)
-        {
-            DateTime randomDate = RandomDateTime(year);
-            return DateOnly.FromDateTime(randomDate);
-        }
         private GroupName CreateGroupName(int year)
         {
             string[] groupNames = { "БИСТ", "БИВТ", "БПИ" };
@@ -141,30 +103,14 @@ namespace Lab5
             int number = 1;
             return number;
         }
-        public void ChangeCourseNumber()
+        public void IncreaceCourseNumber(this Student student1)
         {
-            this.Course += 1;
-        }
-        public void GraduateStudents(LinkedList<Student> university)
-        {
-            LinkedListNode<Student> currentNode = university.First;
-
-            if (currentNode != null)
-            {
-                Student student = currentNode.Value;
-                while (student.Course == 4)
-                {
-                    LinkedListNode<Student> temp = currentNode;
-                    currentNode = currentNode.Next;
-                    university.Remove(temp);
-                    student = currentNode.Value;
-                }
-                    
-            }
+            student1.Course += 1;
         }
         public Student CreateStudent(DateTime year)
         {
             Student student = new Student();
+            DateRandom dateRandom = new DateRandom();
             student.Sex = CreateSex();
 
             if (student.Sex == "МУЖ")
@@ -180,7 +126,7 @@ namespace Lab5
                 student.Patronymic = CreatePatronimicFemale();
             }
 
-            student.BirthDate = CreateDateOnly(year);
+            student.BirthDate = dateRandom.RandomDateOnly(year);
             student.GroupName = CreateGroupName(year.Year);
             student.Course = CreateCourseNumder();
             GreateExamResults(student.ExamResults);
